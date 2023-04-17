@@ -15,3 +15,8 @@
 <li>Create project</li>
 <li>Add domain classes</li>
 <li>Create DB</li>
+
+
+
+
+<p>If u success task mark ✅ if not ❌
