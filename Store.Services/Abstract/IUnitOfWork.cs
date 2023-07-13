@@ -9,7 +9,8 @@ namespace Store.Services.Abstract
     public interface IUnitOfWork:IDisposable
     {
         IProductRepository Products { get; }
-        Task Save();
+        ICharacteristicRepository Characteristics { get; }
+        Task SaveAsync();
 
         
     }

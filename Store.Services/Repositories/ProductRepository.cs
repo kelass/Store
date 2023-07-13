@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using Store.Data;
@@ -18,19 +19,21 @@ namespace Store.Services.Repositories
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
-        public ProductRepository(ApplicationDbContext db, ILogger<ProductRepository> logger)
+        public ProductRepository(ApplicationDbContext db, ILogger<ProductRepository> logger, IMapper mapper)
         {
             _db = db;
             _logger = logger;
+            _mapper = mapper;
         }
-        public async Task<bool> Create(ProductDto entity)
+        public async Task<bool> CreateAsync(ProductDto entity)
         {
             var getById = await _db.Products.FirstOrDefaultAsync(pr => pr.Id == entity.Id);
 
             if (getById == null)
             {
-                Product product = new Product { Id = entity.Id, Name = entity.Name, Description = entity.Description, Price = entity.Price };
+                Product product = _mapper.Map<Product>(entity);
                 await _db.AddAsync(product);
                 _logger.LogInformation("Product added to db");
                 return true;
@@ -50,17 +53,17 @@ namespace Store.Services.Repositories
                 _logger.LogInformation("Product deleted from db");
                 return true;
             }
-            _logger.LogInformation("Product not deleted from db");
+            _logger.LogError("Product not deleted from db");
             return false;
 
 
         }
-        public async Task<Product> GetById(Guid id)
+        public async Task<Product> GetByIdAsync(Guid id)
         {
             return await _db.Products.FirstOrDefaultAsync(pr => pr.Id == id);
         }
 
-        public async Task<List<Product>> Select()
+        public async Task<List<Product>> SelectAsync()
         {
             return await _db.Products.Include(p => p.Characteristics).ToListAsync();
         }

@@ -10,6 +10,6 @@ namespace Store.Services.Abstract
 {
     public interface IProductRepository:IBaseRepository<Product>
     {
-        Task<bool> Create(ProductDto entity);
+        Task<bool> CreateAsync(ProductDto entity);
     }
 }

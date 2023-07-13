@@ -9,7 +9,7 @@ namespace Store.Services.Abstract
 {
     public interface ICharacteristicRepository
     {
-        Task<bool> Create(CharacteristicDto entity);
-        Task<bool> CreateWithList(List<CharacteristicDto> entities);
+        Task<bool> CreateAsync(CharacteristicDto entity);
+        Task<bool> CreateWithListAsync(List<CharacteristicDto> entities);
     }
 }
