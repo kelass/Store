@@ -14,6 +14,6 @@ namespace Store.Domain.DtoModels
         public string Description { get; set; }
         public decimal Price { get; set; }
 
-        public ICollection<Characteristic> Characteristics { get; set; }
+        public List<Characteristic> Characteristics { get; set; }
     }
 }

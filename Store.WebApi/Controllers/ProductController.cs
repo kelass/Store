@@ -6,6 +6,11 @@ using Store.Domain.DbModels;
 using Store.Domain.DtoModels;
 using Store.Services;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using BenchmarkDotNet.Attributes;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Store.WebApi.Controllers
 {
@@ -23,61 +28,24 @@ namespace Store.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> Select()
         {
-          List<Product> products = await _unitOfWork.Products.Select();
+            List<Product> products = await _unitOfWork.Products.Select();
             _unitOfWork.Dispose();
             return products;
         }
+
         [HttpPost]
-        public async Task<ActionResult<bool>> Create(ProductDto entity)
+        public async Task Create(ProductDto entity)
         {
-            try
-            {
-                bool product = await _unitOfWork.Products.Create(entity);
-                if (product == true)
-                {
-                    await _unitOfWork.Save();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-                return false;
-            }
-            finally
-            {
-                _unitOfWork.Dispose();
-            }
+            await _unitOfWork.Products.Create(entity);
+            await _unitOfWork.Save();
+
         }
+
         [HttpDelete]
-        public async Task<ActionResult<bool>> Delete(Guid Id)
+        public async Task Delete(Guid Id)
         {
-            try
-            {
-                bool product = await _unitOfWork.Products.Delete(Id);
-                if (product == true)
-                {
-                    await _unitOfWork.Save();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-                return false;
-            }
-            finally
-            {
-                _unitOfWork.Dispose();
-            }
+            await _unitOfWork.Products.Delete(Id);
+            await _unitOfWork.Save();
         }
     }
 }

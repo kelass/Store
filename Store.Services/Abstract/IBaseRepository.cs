@@ -10,6 +10,6 @@ namespace Store.Services.Abstract
     {
         Task<List<T>> Select();
         Task<T> GetById(Guid id);
-        Task<bool> Delete(Guid id);
+        Task Delete(Guid id);
     }
 }
