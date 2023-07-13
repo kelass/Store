@@ -12,7 +12,7 @@ string connect = builder.Configuration.GetConnectionString("PersonalConnection")
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connect));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddLogging();
 builder.Services.AddControllers();
 

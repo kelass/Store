@@ -15,16 +15,18 @@ namespace Store.Services
     {
         private readonly ApplicationDbContext _db;
         private IProductRepository _productRepository;
-        private bool _disposed = false;
-        public UnitOfWork(ApplicationDbContext db)
+        private ILogger<ProductRepository> _loggerProduct;
+
+        public UnitOfWork(ApplicationDbContext db, ILogger<ProductRepository> loggerProduct)
         {
             _db = db;
+            _loggerProduct = loggerProduct;
         }
         public IProductRepository Products
         {
             get
             {
-                return _productRepository = _productRepository ?? new ProductRepository(_db);
+                return _productRepository = _productRepository ?? new ProductRepository(_db, _loggerProduct);
             }
 
         }

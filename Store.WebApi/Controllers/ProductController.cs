@@ -11,6 +11,7 @@ using System.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Store.Services.Abstract;
 
 namespace Store.WebApi.Controllers
 {
@@ -18,8 +19,8 @@ namespace Store.WebApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly UnitOfWork _unitOfWork;
-        public ProductController(UnitOfWork unitOfWork)
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
